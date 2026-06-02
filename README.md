@@ -1,92 +1,71 @@
-# Ratcade: The Autonomous Gamified Rodent Enclosure & On-Chain Eco-System
+# Ratcade
 
 <img width="642" height="502" alt="Screenshot 2026-06-02 at 16 07 27" src="https://github.com/user-attachments/assets/ab3e7e55-64e4-4ee1-a260-1061022785e4" />
 
 
-## 📌 Project Overview
-Ratcade is an open-source, fully autonomous gamified rodent habitat fusing precision electromechanical engineering, real-time edge computer vision (CV), and programmatic decentralized finance (DeFi). The system provides structured physical enrichment for rodents via automated puzzle-gates, dual-station calorie dispensing, and a kinetic energy capture wheel acting as an active DC generator. 
++-----------------------------------------------------------------------+|                        CORE HARDWARE LAYER                            |+-----------------------------------------------------------------------+| (22 Smart Sensors, 6 Joysticks, 6 Servos, DC Generator, PWM Fan)v+-----------------------------------------------------------------------+|                   MAIN MICROCONTROLLER (ATmega328P)                   |+-----------------------------------------------------------------------+| (USB Serial Data Frame: 115200 Baud)v+-----------------------------------------------------------------------+|                       EDGE COMPUTING NODE                             ||           (Raspberry Pi 5 / NVIDIA Jetson Nano Linux Host)            |+-----------------------------------------------------------------------+// (Local WebSockets / JSON Frame)                                       \ (Rust Engine / RPC)v                                                                         v+------------------------------------+                    +------------------------------------+|       OBS STREAM AUTOMATION        |                    |       ON-CHAIN EXECUTION           ||  Multi-Cam OpenCV Zone Tracking    |                    |   Programmatic Pump.fun/Jupiter    ||  Automated Scene Transitions       |                    |   Non-Custodial Block Engine Swaps |+------------------------------------+                    +------------------------------------+
+---
 
-The environment dynamically manages live-stream broadcasts based on kinetic triggers and translates physical rodent activity into real-time on-chain token functions (automated buybacks and burns) on the Solana network via custom automated market maker (AMM) hooks.
+## 📊 Level 1 Mission Rules & Resource Economics
+
+The Ratcade architecture enforces an environment of controlled resource scarcity where basic rodent needs are gated behind mechanical tokens and gamified milestones.
+
+* **Starting Reserves:** The system initializes with a stored energy buffer of exactly **72 Hours** within the onboard supercapacitor array.
+* **Survival Objective:** The enclosure's inhabitants must balance intake and harvest kinetic energy to sustain systemic power for **11 Days (264 Hours) continuously** without a micro-grid brownout.
+* **Caloric Control:** The dual feeding stations are software-throttled via non-blocking hardware clocks, allowing an execution loop only once every **3 Hours** per station.
+* **Life Support Systems:** The high-volume aquarium filtration grid and hydroponic life-support watering lines run continuously, isolated mathematically from behavioral lockouts to guarantee habitat safety.
 
 ---
 
-## 🛠 System Architecture
+## ⚡ Kinetic Energy Harvesting & Micro-Grid Power Architecture
 
-+-------------------------------------------------+
-           |              Ratcade Core Hardware              |
-           +-------------------------------------------------+
-             /          |                    |             \
-            /           |                    |              \
-[6x Analog Joysticks] [5x Micro Servos]  [DC Generator Wheel] [PWM Fan/Button]
-\           |                    |              /
-\          v                    v             /
-+-------------------------------------------------+
-|          Main System Microcontroller            |
-+-------------------------------------------------+
-| (Serial telemetry via USB)
-v
-+-------------------------------------------------+
-|             Edge Edge Compute Node              |
-|       (Raspberry Pi 5 / Jetson Nano)            |
-+-------------------------------------------------+
-/
+The power generation module scales the physical mechanics of a direct-drive wind turbine down to a high-efficiency rodent running wheel assembly.
 
-/ (OpenCV Scene Directing)                \ (Rust/Web3 Data Feed)
-v                                           v
-+-----------------------------+             +-----------------------------+
-|    OBS Studio Broadcast     |             |      Solana Engine /        |
-| (RTMP/WebRTC Automated Cam) |             |   Pump.fun Smart Engine     |
-+-----------------------------+             +-----------------------------+
+### 1. Mechanical-to-Electrical Powertrain
+The running wheel is mated to a low-cogging, high-flux DC permanent magnet generator via a precision-machined **3D printed step-up pulley adapter** and a high-tensile drive belt. The pulley ratio is structurally optimized to translate low-RPM mechanical rotation into the generator's peak voltage output curve.
 
+The variable, high-ripple DC voltage generated from active running is normalized via a synchronous **Buck-Boost DC-DC Converter** containing strict overvoltage clamping protection. This clean power directly charges a **5.5V Supercapacitor Bank**. Supercapacitors were integrated instead of chemical lithium cells due to their ultra-low Equivalent Series Resistance ($ESR$) and near-infinite charge/discharge cycle life, efficiently absorbing high-amperage kinetic generation spikes.
 
-### 1. Mechanical & Hardware Layer
-* **Double-Door Assembly (Gates A & B):** Two dual-servo automated safety doors activated by hair-trigger analog inputs mapping user configuration or rodent target tracking.
-* **Dual Feeding Stations:** High-torque micro-servo distribution augers featuring mechanical lockout limits to precisely control food allocation.
-* **Kinetic Wheel Array:** A low-friction, high-durability running wheel connected via a continuous drive belt to a small 5V DC Generator, managed by an integrated power tracking unit with supercapacitors for energy storage buffering.
+### 2. Micro-Grid Balance Calibration
+The entire sensor array, logic gates, and servo idle states produce a continuous baseline parasitic current draw ($P_{\text{idle}} \approx 0.25\text{W}$). The electro-mechanical system transaction is calibrated precisely to the following mathematical model:
 
-### 2. Edge Computer Vision & Automated Scene Transitions
-The system features a multi-camera vision mesh driven by a localized edge processing node (e.g., Raspberry Pi 5 or NVIDIA Jetson Nano) running a lightweight spatial tracking algorithm via OpenCV.
+$$\text{1 Full Mechanical Wheel Rotation} \approx 13.32\text{ Seconds of Grid System Uptime}$$
 
-* **Tracking Engine:** A Gaussian Mixture-based Background/Foreground Segmentation model (`cv2.createBackgroundSubtractorMOG2()`) isolates the rodent's pixel coordinate space $(X, Y)$ within localized bounding boxes.
-* **Scene Directing Protocol:** Instead of a static security view, a dedicated Python engine monitors movement metrics across defined Zones (Zone 1: Wheel, Zone 2: Gate A, Zone 3: Gate B, Zone 4: Feeders). 
-* **OBS Studio Integration:** The director script exposes a local WebSocket server connected directly to **OBS Studio via obs-websocket-py**. When pixel deviation thresholds are sustained inside a specific zone for $>400\text{ms}$, the node triggers an instantaneous, smooth scene transition to the camera capturing that sector, ensuring live streams are always fixed on active zones.
-
-### 3. Programmatic Tokenomics: Automated Buys & Burns
-Activity in the Ratcade ecosystem is directly tokenized on-chain on Solana (`pump.fun` bonding curves migrating to Raydium pools). To achieve true, trustless execution without exposing private keys in vulnerable browser extensions, the project deploys a secure, head-mounted **Rust-based execution engine**.
-
-[Kinetic Generation Matrix] ---> [Validated Telemetry] ---> [AWS KMS Signer] ---> [Jito Block Engine (MEV Tip)] ---> [Solana Mainnet Swap/Burn]
-
-
-#### The Tech Stack:
-* **Telemetry Verification:** Hardware state changes (e.g., total wheel rotations measured by voltage spikes on the current sensor, completed feeding loops) are securely signed by the local firmware and piped to an ingestion API.
-* **Cryptographic Key Management:** Swaps are routed through **AWS Key Management Service (KMS)** or an isolated hardware security module (HSM) holding the deployer/marketing operational wallet keypair securely, ensuring zero raw private key strings exist on disk.
-* **Execution Wrapper:** A custom Rust worker leverages the `@solana/web3.js` interface and the **Jito Block Engine** to bundle purchase transactions. This guarantees atomic transaction delivery and bypasses public mempool front-running.
-* **The Deflationary Loop:**
-    1.  **Buy Back:** When target milestones are completed by the rodent, a configured percentage of accumulated ecosystem fees (SOL) is dynamically extracted via a Jupiter Aggregator API swap route to buy the target token.
-    2.  **Burn:** The acquired SPL-token balance is systematically directed to the native Solana system burn address (`11111111111111111111111111111111`), permanently shrinking the circulating token supply directly verifiable on the Explorer.
+To achieve this, the generator captures and delivers approximately $3.33\text{ Joules}$ of net electrical energy directly to the supercapacitor storage pool per full rotation, accounting for mechanical torque friction and an estimated $\eta = 88\%$ DC-DC conversion efficiency.
 
 ---
 
-## 💻 Firmware Repository
+## 👁️ Computer Vision Mesh & Automated Broadcast Switching
 
-Paste this complete, non-blocking firmware stack into your IDE. This controls the 4 door servos, 2 independent feeder servos with 2.5-hour safe lockouts, and the PWM wheel fan.
+The tracking system turns the physical enclosure into an automated live broadcast environment. An edge computing node continuously processes a multi-camera vision mesh using an optimized background subtraction algorithm.
 
-```cpp
-#include <Servo.h>
+### 1. Spatial Segmentation Algorithm
+The Linux host grabs frame buffers from 4 independent USB camera inputs positioned at critical functional zones.
+
+```python
+import cv2
+# MOG2 Background Subtractor Initialization for Target Isolation
+backSub = cv2.createBackgroundSubtractorMOG2(history=500, varThreshold=16, detectShadows=False)
+The system segregates the rodent's spatial coordinates $(X, Y)$ from static structures, monitoring movement density vectors across four distinct operational matrices:Zone 1: Kinetic Generator WheelZone 2: Portal Gate A (Double-Doors 1)Zone 3: Portal Gate B (Double-Doors 2)Zone 4: Automated Calorie Dispensers / Aquarium Recirculation View2. OBS WebSockets AutomationWhen movement density crosses the tracking threshold inside any specific zone and remains stable for more than $400\text{ms}$, a Python orchestration daemon executes a JSON payload across a localized WebSocket connection directly to OBS Studio via obs-websocket-py.OBS dynamically triggers an instant, frame-accurate scene change to the video feed focused on that active sector, managing the entire broadcast stream autonomously.🦀 On-Chain Architecture: Programmatic Token Buys & BurnsRatcade bridges physical ecosystem metrics directly with the Solana blockchain. When critical milestones are achieved (e.g., survival milestones or specific generation quotas), a headless Rust execution worker handles trustless market transactions on pump.fun bonding curves or Raydium AMM pools.[Telemetry Trigger] ---> [Rust Execution Worker] ---> [AWS KMS Core Signer] ---> [Jito MEV Block Engine] ---> [Token Burn Address]
+1. Secure Telemetry ValidationState transitions (such as verified dispenser cycles or generator voltage spikes) are packaged into encrypted data frames by the firmware and delivered via serial pipeline to the host node. The host runs an validation loop to prevent false triggers or hardware noise from altering transactional outputs.2. Non-Custodial Key SignaturesTo guarantee enterprise-grade security, no raw private keys or seed phrase strings are stored on-disk or exposed inside the execution environment. The Rust script interacts with an AWS Key Management Service (KMS) or dedicated Hardware Security Module (HSM) holding the transaction-signing keys. The payload is signed inside the isolated cryptographic module before broadcast.3. Jito MEV Front-Running ProtectionTo insulate transactions from malicious sandwich attacks, front-running bots, or mempool slippage, the compiled transaction is not sent via standard public RPC nodes. Instead, the signed payload is converted into an atomic transaction bundle and sent directly to the Jito Block Engine alongside a specified tip in SOL. This bypasses the public mempool, ensuring guaranteed, flash-bot-protected block execution.4. Immutable Deflationary SwapsThe execution worker queries the Jupiter Aggregator API to resolve the most efficient swap path, converting incoming ecosystem fees (SOL) into the target SPL token. The purchased token balance is immediately transferred to the native Solana system burn address:Plaintext11111111111111111111111111111111
+This process achieves an un-manipulable, permanent reduction in circulating supply, verifiable directly on-chain.🎛️ Hardware Interface Profile & Pin MappingSubsystemFunctional ComponentHardware ChannelPin TypeDouble-Door 1 (Gate A)Portal Servo Left (1)Portal Servo Right (2)Trigger Joystick 1Trigger Joystick 2Digital Pin 2Digital Pin 3Analog Pin A5Analog Pin A4PWM OutputPWM OutputAnalog InputAnalog InputDouble-Door 2 (Gate B)Portal Servo Left (3)Portal Servo Right (4)Trigger Joystick 3Trigger Joystick 4Digital Pin 4Digital Pin 5Analog Pin A3Analog Pin A2PWM OutputPWM OutputAnalog InputAnalog InputCalorie FeedersAuger Servo 1 (Station 1)Auger Servo 2 (Station 2)Feeder Joystick 1Feeder Joystick 2Digital Pin 6Digital Pin 7Analog Pin A1Analog Pin A0PWM OutputPWM OutputAnalog InputAnalog InputWheel Fan OverrideSlow-Velocity Fan MotorManual Tactile ButtonDigital Pin 11Digital Pin 12PWM Hardware OutputDigital Input (Pullup)Aquatic Sub-SystemContinuous Filtration PumpWater Delivery SolenoidDigital Pin 9Digital Pin 10PWM Power OutputDigital OutputEcosystem EastereggsUnderground Lift ServoWaterslide Valve RelayDigital Pin 13Analog Pin A6 (Digital Mode)Digital OutputDigital Output💻 System Core FirmwareThis production-grade, non-blocking C++ framework executes the low-level processing loops across all components of the physical environment layer, incorporating hydro-filtration networks and hidden dynamic mechanical routines.C++#include <Servo.h>
 
 // =========================================================================
-// ⚙️ SERVO ANGLE CONFIGURATION TUNING POOL
+// ⚙️ SERVO POSITION CALIBRATION POOL (ANTI-HUNTING COEFFICIENTS)
 // =========================================================================
-const int GATE1_LEFT_CLOSED  = 0;   const int GATE1_LEFT_OPEN  = 90; // Servo 1
-const int GATE1_RIGHT_CLOSED = 0;   const int GATE1_RIGHT_OPEN = 90; // Servo 2
+const int GATE1_LEFT_CLOSED  = 0;   const int GATE1_LEFT_OPEN  = 90; 
+const int GATE1_RIGHT_CLOSED = 0;   const int GATE1_RIGHT_OPEN = 90; 
 
-const int GATE2_LEFT_CLOSED  = 0;   const int GATE2_LEFT_OPEN  = 90; // Servo 3
-const int GATE2_RIGHT_CLOSED = 0;   const int GATE2_RIGHT_OPEN = 86; // Servo 4 
+const int GATE2_LEFT_CLOSED  = 0;   const int GATE2_LEFT_OPEN  = 90; 
+const int GATE2_RIGHT_CLOSED = 0;   const int GATE2_RIGHT_OPEN = 86; 
 
 const int FEEDER_HOME_ANGLE  = 120;  const int FEEDER_DUMP_ANGLE = 0;  
 
+// Easteregg Mechanical Extents
+const int LIFT_DOWN_POSITION = 10;  const int LIFT_UP_POSITION = 170;
+
 // =========================================================================
-// 🛠️ HARDWARE PROFILE: DOUBLE-DOOR 1 (GATE A)
+// 🛠️ HARDWARE ASSIGNMENT OBJECT MATRIX
 // =========================================================================
 Servo gate1ServoLeft; Servo gate1ServoRight;
 const int gate1ServoLeftPin = 2; const int gate1ServoRightPin = 3;
@@ -94,41 +73,43 @@ const int joy1Pin = A5; const int joy2Pin = A4;
 int baseline1, baseline2;
 bool gate1IsOpen = false; unsigned long gate1Millis = 0;
 
-// =========================================================================
-// 🛠️ HARDWARE PROFILE: DOUBLE-DOOR 2 (GATE B)
-// =========================================================================
 Servo gate2ServoLeft; Servo gate2ServoRight;
 const int gate2ServoLeftPin = 4; const int gate2ServoRightPin = 5;
 const int joy3Pin = A3; const int joy4Pin = A2;
 int baseline3, baseline4;
 bool gate2IsOpen = false; unsigned long gate2Millis = 0;
 
-// =========================================================================
-// 🛠️ HARDWARE PROFILE: AUTO FEEDERS (WITH 2.5 HOUR LOCKOUT)
-// =========================================================================
 Servo feederServo1; const int feederServo1Pin = 6; const int joyFeeder1Pin = A1; int baselineFeeder1;
 Servo feederServo2; const int feederServo2Pin = 7; const int joyFeeder2Pin = A0; int baselineFeeder2;
 
 unsigned long lastFeeder1Activation = 0;
 unsigned long lastFeeder2Activation = 0;
-const unsigned long FEEDER_LOCKOUT_TIME = 9000000; // 2.5 Hours in milliseconds
+const unsigned long FEEDER_LOCKOUT_TIME = 10800000; // Updated to exactly 3.0 Hours in milliseconds
 
-// =========================================================================
-// 🛠️ HARDWARE PROFILE: WHEEL FAN & BUTTON (ANYTIME RUNTIME)
-// =========================================================================
+// Wheel Fan Override
 const int fanPin = 11;       
 const int buttonPin = 12;    
-
 const int FAN_SLOWEST_SPEED = 45; 
 bool fanIsRunning = false;
 unsigned long fanStartedMillis = 0;
 const unsigned long FAN_RUN_DURATION = 3000; 
 
-// =========================================================================
-// ⚙️ SHARED SYSTEM RULES
-// =========================================================================
+// Life Support Infrastructure Pins
+const int aquariumFilterPumpPin = 9;
+const int cleanWaterSolenoidPin = 10;
+
+// Easteregg Subsystem Mapping
+Servo undergroundLiftServo;
+const int undergroundLiftServoPin = 13;
+const int waterslideValveRelayPin = A6; // Designated analog line utilized as digital out
+
+unsigned long lastHydroPurgeMillis = 0;
+const unsigned long HYDRO_PURGE_INTERVAL = 1800000; // Periodic self-clean system flush (30 Minutes)
+bool waterSolenoidActive = false;
+unsigned long waterSolenoidTriggerMillis = 0;
+
 const int HAIR_TRIGGER_THRESHOLD = 25; 
-const unsigned long doorOpenDuration = 16000; // 16 Seconds Hold Time
+const unsigned long doorOpenDuration = 16000; 
 
 int getStableRead(int pin) {
   analogRead(pin);
@@ -138,9 +119,9 @@ int getStableRead(int pin) {
 
 void setup() {
   Serial.begin(115200);
-  Serial.println("[RATCADE_CORE] Initializing Firmware Modules...");
+  Serial.println("[RATCADE_INITIALIZE] Executing system hardware boot...");
 
-  // Register Actuators
+  // Actuator Attaching
   gate1ServoLeft.attach(gate1ServoLeftPin);   gate1ServoLeft.write(GATE1_LEFT_CLOSED);
   gate1ServoRight.attach(gate1ServoRightPin); gate1ServoRight.write(GATE1_RIGHT_CLOSED);
   gate2ServoLeft.attach(gate2ServoLeftPin);   gate2ServoLeft.write(GATE2_LEFT_CLOSED);
@@ -148,12 +129,25 @@ void setup() {
 
   feederServo1.attach(feederServo1Pin); feederServo1.write(FEEDER_HOME_ANGLE);
   feederServo2.attach(feederServo2Pin); feederServo2.write(FEEDER_HOME_ANGLE);
+  
+  undergroundLiftServo.attach(undergroundLiftServoPin);
+  undergroundLiftServo.write(LIFT_DOWN_POSITION);
+
+  // Initialize Continuous Life Support Ports
+  pinMode(aquariumFilterPumpPin, OUTPUT);
+  pinMode(cleanWaterSolenoidPin, OUTPUT);
+  pinMode(waterslideValveRelayPin, OUTPUT);
+  
+  // Power up primary life support water filtration node
+  analogWrite(aquariumFilterPumpPin, 180); // Establish optimal continuous flow metrics
+  digitalWrite(cleanWaterSolenoidPin, LOW);
+  digitalWrite(waterslideValveRelayPin, LOW);
 
   pinMode(fanPin, OUTPUT);
   analogWrite(fanPin, 0); 
   pinMode(buttonPin, INPUT_PULLUP); 
 
-  // Fast Hardware Calibration Sequence
+  // Sensor Stabilization Calibration Delay
   delay(500);
   baseline1 = getStableRead(joy1Pin);
   baseline2 = getStableRead(joy2Pin);
@@ -162,14 +156,32 @@ void setup() {
   baselineFeeder1 = getStableRead(joyFeeder1Pin);
   baselineFeeder2 = getStableRead(joyFeeder2Pin);
 
-  Serial.println("[SYSTEM_READY] All subsystems operational. Monitoring telemetry lines.");
+  Serial.println("[SYSTEM_ONLINE] Telemetry monitoring active.");
 }
 
 void loop() {
   unsigned long currentMillis = millis();
 
   // =========================================================================
-  // 🔘 DOUBLE-DOOR 1 RUNTIME ENGINE
+  // 🔘 LIFE SUPPORT SYSTEMS (AQUARIUM & WATER MATRIX)
+  // =========================================================================
+  // Automated Hydro-Purge: Keep water levels pristine automatically
+  if (currentMillis - lastHydroPurgeMillis >= HYDRO_PURGE_INTERVAL) {
+    digitalWrite(cleanWaterSolenoidPin, HIGH);
+    waterSolenoidActive = true;
+    waterSolenoidTriggerMillis = currentMillis;
+    lastHydroPurgeMillis = currentMillis;
+    Serial.println("TELEMETRY:{\"event\":\"aquarium_replenish_start\"}");
+  }
+
+  if (waterSolenoidActive && (currentMillis - waterSolenoidTriggerMillis >= 5000)) { // 5-second freshwater top-off
+    digitalWrite(cleanWaterSolenoidPin, LOW);
+    waterSolenoidActive = false;
+    Serial.println("TELEMETRY:{\"event\":\"aquarium_replenish_stop\"}");
+  }
+
+  // =========================================================================
+  // 🔘 DOUBLE-DOOR 1 MAIN PROCESSING RUNTIME (GATE A)
   // =========================================================================
   int dev1 = abs(getStableRead(joy1Pin) - baseline1);
   int dev2 = abs(getStableRead(joy2Pin) - baseline2);
@@ -190,7 +202,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 DOUBLE-DOOR 2 RUNTIME ENGINE
+  // 🔘 DOUBLE-DOOR 2 MAIN PROCESSING RUNTIME (GATE B)
   // =========================================================================
   int dev3 = abs(getStableRead(joy3Pin) - baseline3);
   int dev4 = abs(getStableRead(joy4Pin) - baseline4);
@@ -211,7 +223,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 AUTO-FEEDER 1 ENGINE (2.5 HOUR LOCKED)
+  // 🔘 CALORIE DISPENSER 1 PROCESSING ENGINE (3.0 HOUR LIMITER)
   // =========================================================================
   int devFeeder1 = abs(getStableRead(joyFeeder1Pin) - baselineFeeder1);
   if (devFeeder1 > HAIR_TRIGGER_THRESHOLD) {
@@ -224,7 +236,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 AUTO-FEEDER 2 ENGINE (2.5 HOUR LOCKED)
+  // 🔘 CALORIE DISPENSER 2 PROCESSING ENGINE (3.0 HOUR LIMITER)
   // =========================================================================
   int devFeeder2 = abs(getStableRead(joyFeeder2Pin) - baselineFeeder2);
   if (devFeeder2 > HAIR_TRIGGER_THRESHOLD) {
@@ -237,7 +249,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 WHEEL FAN ENGINE (ANYTIME OVERRIDE)
+  // 🔘 WHEEL FAN DRIVE MODULE & AUTOMATED SECRET EASTEREEGS
   // =========================================================================
   bool buttonIsPressed = (digitalRead(buttonPin) == LOW);
 
@@ -245,35 +257,28 @@ void loop() {
     analogWrite(fanPin, FAN_SLOWEST_SPEED); 
     fanIsRunning = true;
     fanStartedMillis = currentMillis;
+    
+    // Easteregg Activation Chain: Trigger underground lift and fill pool via waterslide valve
+    undergroundLiftServo.write(LIFT_UP_POSITION);
+    digitalWrite(waterslideValveRelayPin, HIGH); // Open luxury pool filling circuit
+    
     Serial.println("TELEMETRY:{\"event\":\"fan_wheel_start\"}");
+    Serial.println("TELEMETRY:{\"event\":\"secret_easteregg_triggered\"}");
   }
 
   if (fanIsRunning && (currentMillis - fanStartedMillis >= FAN_RUN_DURATION)) {
     analogWrite(fanPin, 0); 
     fanIsRunning = false;
+    
+    // Reset structural easteregg elements back into hidden configuration
+    undergroundLiftServo.write(LIFT_DOWN_POSITION);
+    digitalWrite(waterslideValveRelayPin, LOW); // Close pool flush valve
+    
     Serial.println("TELEMETRY:{\"event\":\"fan_wheel_stop\"}");
   }
 }
-🚀 Setup & Installation
-Hardware Deployment
-Connect micro servos to Digital PWM Pins 2, 3, 4, 5, 6, and 7.
-
-Connect Analog Joysticks to Pins A0 through A5.
-
-Wire the activation button to Digital Pin 12 and a common GND rail.
-
-Route Pin 11 to the base of your Fan Wheel drive mosfet circuit.
-
-Broadcast Director Implementation
-Ensure your compute engine has python packages initialized:
-
-Bash
-pip install opencv-python obs-websocket-py
-python src/vision_director.py --host 127.0.0.1 --port 4455 --secret YOUR_OBS_PASSWORD
-On-Chain Broker Deployment
-Configure the Rust environment variables inside your production module (/src/solana_engine/):
-
-Bash
-export SOLANA_RPC_URL="[https://api.mainnet-beta.solana.com](https://api.mainnet-beta.solana.com)"
-export TARGET_TOKEN_MINT="YourPumpFunTokenMintAddressHere"
+🛠️ Installation & Compilation Sequence1. Embedded Layer DeploymentLoad the core firmware sketch inside the native Arduino IDE environment.Select target board type as Arduino Nano (or equivalent ATmega328P target) inside Tools -> Board.Compile and execute the flash sequence onto the microchip via the specified USB port interface.2. Live Stream Edge Controller IntegrationInitialize your edge engine python dependency pool to handle the automated camera tracking pipeline:Bashpip install opencv-python obs-websocket-py
+python src/vision_director.py --host 127.0.0.1 --port 4455 --secret LOCAL_SOCKET_SECRET
+3. Solana Execution Module DeploymentCompile and run the performance-optimized Web3 routing module written in Rust:Bashexport RPC_ENDPOINT="[https://api.mainnet-beta.solana.com](https://api.mainnet-beta.solana.com)"
+export TOKEN_MINT_ADDRESS="YourPumpFunTokenMintAddress"
 cargo run --release
