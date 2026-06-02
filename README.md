@@ -8,10 +8,10 @@ An open-source, closed-loop hardware-in-the-loop (HIL) enclosure combining elect
 
 ---
 
-## 🗺️ System Architecture
+## System Architecture
 
 * **1. Core Hardware Layer**
-    * *Components:* 22 Smart Sensors, 6 Joysticks, 6 Servos, DC Generator, PWM Overdrive Fan.
+    * *Components:* 34 Smart Sensors, DC Generator, PWM Overdrive Fan.
     * *Data Interface:* Local hardware signals route directly to primary microcontroller.
 * **2. Main Microcontroller (ATmega328P)**
     * *Processing:* Hardware IO timing, analog state sampling, non-blocking lockout clocks.
@@ -23,7 +23,7 @@ An open-source, closed-loop hardware-in-the-loop (HIL) enclosure combining elect
 
 ---
 
-## 📊 Level 1 Mission Rules & Resource Economics
+## Level 1 Mission Rules & Resource Economics
 
 The Ratcade architecture enforces an environment of controlled resource scarcity where basic rodent needs are gated behind mechanical tokens and gamified milestones.
 
@@ -34,7 +34,7 @@ The Ratcade architecture enforces an environment of controlled resource scarcity
 
 ---
 
-## ⚡ Kinetic Energy Harvesting & Micro-Grid Power Architecture
+## Kinetic Energy Harvesting & Micro-Grid Power Architecture
 
 ### 1. Mechanical-to-Electrical Powertrain
 The power plant uses a permanent magnet DC brush generator integrated directly into the core structural chassis via high-speed shaft bearings. 
@@ -44,11 +44,16 @@ Because rodents deliver high torque but low raw RPM, a direct-drive setup would 
 * **The Input Pulley:** A low-diameter aluminum input pulley is fixed directly to the generator drive shaft.
 * **The Transmission Link:** A continuous high-tensile neoprene drive belt couples the assemblies, providing a **1:4.8 mechanical step-up ratio**. This forces the generator shaft to spin at an optimal RPM where it can efficiently output raw voltage even during moderate rodent velocity spikes.
 
+<img width="386" height="603" alt="Screenshot 2026-06-02 at 16 33 14" src="https://github.com/user-attachments/assets/d0ab96e4-2b55-4859-9120-b4a963bb7c24" />
+
+
 ### 2. Regulation, Supercapacitors, & Instrumentation
 The raw output from the generator is highly unstable and fluctuates rapidly. This unregulated power is routed through a specialized power management PCB containing three distinct solid-state stages:
 * **Rectification & Buck-Boost Regulation:** An ultra-low quiescent current synchronous Buck-Boost DC-DC converter automatically smooths the input spikes, stepping down overvoltage peaks or stepping up low-velocity generation tails to a constant **5.0V DC charging rail**.
 * **Energy Storage Matrix:** The regulated 5.0V rail charges a high-capacity **5.5V Supercapacitor Bank** (dual-cell array configured in parallel). Supercapacitors are utilized here instead of lithium chemistry batteries to leverage their extremely low Equivalent Series Resistance ($ESR$). This allows the grid to instantly absorb sudden high-amperage kinetic bursts without thermal degradation, offering a lifespan of $>500,000$ complete charge-discharge cycles.
 * **Telemetry Instrumentation:** To track generation metrics in real-time, a **Current Sensor** (e.g., INA219 high-side I2C monitor) is inline with the generator output. The sensor tracks exact micro-amperage ($I$) and voltage ($V$) fluctuations, sending instant telemetry frames to the system controller to register confirmed rotations.
+
+
 
 ### 3. Micro-Grid Energy Balance & Power Math
 The habitat runs a strict resource economy calculated against system power consumption. The continuous baseline parasitic current draw of the entire system (Atmega328P, 22 active smart sensors, 6 idling joysticks, and logic pull-ups) settles at:
@@ -67,6 +72,10 @@ $$E = P \times t = 0.25\text{W} \times 13.32\text{s} = 3.33\text{ Joules of Usab
 Given the mechanical efficiency of the belt-drive transmission ($\eta_{\text{mech}} \approx 92\%$) and the thermal efficiency of the synchronous buck-boost converter ($\eta_{\text{elec}} \approx 88\%$), the net system efficiency coefficient is $\eta_{\text{sys}} = 0.92 \times 0.88 \approx 81\%$. 
 
 Therefore, to bank 3.33 Joules of usable energy, the rodent must exert a minimal kinetic mechanical work output ($W_{\text{input}}$) of approximately **4.11 Joules** per full rotation of the wheel assembly. If the energy reserve drops below operational tolerances over the course of the 11-day challenge, the main power rails drop out, causing a total system brownout.
+
+
+<img width="342" height="582" alt="Screenshot 2026-06-02 at 16 35 53" src="https://github.com/user-attachments/assets/68d1a10d-18f1-4665-9f47-caf5223cc24d" />
+
 
 ---
 
