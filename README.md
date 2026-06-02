@@ -1,6 +1,6 @@
 # Ratcade: The Autonomous Gamified Rodent Enclosure & On-Chain Eco-System
 
-![Ratcade Hardware Interface]<img width="642" height="502" alt="Screenshot 2026-06-02 at 16 07 27" src="https://github.com/user-attachments/assets/ab3e7e55-64e4-4ee1-a260-1061022785e4" />
+<img width="642" height="502" alt="Screenshot 2026-06-02 at 16 07 27" src="https://github.com/user-attachments/assets/ab3e7e55-64e4-4ee1-a260-1061022785e4" />
 
 
 ## 📌 Project Overview
