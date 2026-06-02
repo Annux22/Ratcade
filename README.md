@@ -1,6 +1,4 @@
-# Ratcade
 
-<img width="642" height="502" alt="Screenshot 2026-06-02 at 16 07 27" src="https://github.com/user-attachments/assets/ab3e7e55-64e4-4ee1-a260-1061022785e4" />
 
 # Ratcade: Level 1 — Autonomous Gamified Rodent Enclosure & Kinetic Micro-Grid
 
