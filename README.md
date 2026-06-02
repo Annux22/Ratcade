@@ -2,7 +2,7 @@
 
 # Ratcade: Level 1 — Autonomous Gamified Rodent Enclosure & Kinetic Micro-Grid
 
-An open-source, closed-loop hardware-in-the-loop (HIL) enclosure combining electromechanical automation, edge computer vision (CV) scene direction, and programmatic DeFi execution on the Solana blockchain.
+An open-source, closed-loop hardware-in-the-loop (HIL) enclosure combining electromechanical automation, edge computer vision (CV) scene direction, and programmatic DeFi execution on the Solana blockchain
 
 ---
 
