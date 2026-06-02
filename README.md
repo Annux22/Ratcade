@@ -52,6 +52,9 @@ The raw output from the generator is highly unstable and fluctuates rapidly. Thi
 * **Telemetry Instrumentation:** To track generation metrics in real-time, a **Current Sensor** (e.g., INA219 high-side I2C monitor) is inline with the generator output. The sensor tracks exact micro-amperage ($I$) and voltage ($V$) fluctuations, sending instant telemetry frames to the system controller to register confirmed rotations.
 
 
+<img width="453" height="390" alt="Screenshot 2026-06-02 at 16 42 03" src="https://github.com/user-attachments/assets/28c75956-6b49-4f96-b93b-340f52a7ce23" />
+
+
 
 ### 3. Micro-Grid Energy Balance & Power Math
 The habitat runs a strict resource economy calculated against system power consumption. The continuous baseline parasitic current draw of the entire system (Atmega328P, 22 active smart sensors, 6 idling joysticks, and logic pull-ups) settles at:
@@ -77,7 +80,7 @@ Therefore, to bank 3.33 Joules of usable energy, the rodent must exert a minimal
 
 ---
 
-## 👁️ Computer Vision Mesh & Automated Broadcast Switching
+## Computer Vision Mesh & Automated Broadcast Switching
 
 The tracking system turns the physical enclosure into an automated live broadcast environment. An edge computing node continuously processes a multi-camera vision mesh using an optimized background subtraction algorithm.
 
@@ -103,7 +106,7 @@ OBS dynamically triggers an instant, frame-accurate scene change to the video fe
 
 ---
 
-## 🦀 On-Chain Architecture: Programmatic Token Buys & Burns
+## On-Chain Architecture: Programmatic Token Buys & Burns
 
 Ratcade bridges physical ecosystem metrics directly with the Solana blockchain. When critical milestones are achieved (e.g., survival milestones or specific generation quotas), a headless **Rust execution worker** handles trustless market transactions on `pump.fun` bonding curves or Raydium AMM pools.
 
@@ -127,7 +130,7 @@ This process achieves an un-manipulable, permanent reduction in circulating supp
 
 ---
 
-## 🎛️ Hardware Interface Profile & Pin Mapping
+## Hardware Interface Profile & Pin Mapping
 
 | Subsystem | Functional Component | Hardware Channel | Pin Type |
 | :--- | :--- | :--- | :--- |
@@ -141,7 +144,7 @@ This process achieves an un-manipulable, permanent reduction in circulating supp
 
 ---
 
-## 💻 System Core Firmware
+## System Core Firmware
 
 This firmware code handles all components of the physical environment layer, incorporating continuous filtration networks, dynamic power telemetry monitoring, and hidden dynamic mechanical routines.
 
@@ -150,7 +153,7 @@ This firmware code handles all components of the physical environment layer, inc
 #include <Wire.h> // Required for I2C communication with current sensor
 
 // =========================================================================
-// ⚙️ SERVO POSITION CALIBRATION POOL (ANTI-HUNTING COEFFICIENTS)
+//  SERVO POSITION CALIBRATION POOL (ANTI-HUNTING COEFFICIENTS)
 // =========================================================================
 const int GATE1_LEFT_CLOSED  = 0;   const int GATE1_LEFT_OPEN  = 90; 
 const int GATE1_RIGHT_CLOSED = 0;   const int GATE1_RIGHT_OPEN = 90; 
@@ -160,7 +163,7 @@ const int FEEDER_HOME_ANGLE  = 120;  const int FEEDER_DUMP_ANGLE = 0;
 const int LIFT_DOWN_POSITION = 10;  const int LIFT_UP_POSITION = 170;
 
 // =========================================================================
-// 🛠️ HARDWARE ASSIGNMENT OBJECT MATRIX
+//  HARDWARE ASSIGNMENT OBJECT MATRIX
 // =========================================================================
 Servo gate1ServoLeft; Servo gate1ServoRight;
 const int gate1ServoLeftPin = 2; const int gate1ServoRightPin = 3;
@@ -275,7 +278,7 @@ void loop() {
   lastVoltageRead = rawVoltage;
 
   // =========================================================================
-  // 🔘 LIFE SUPPORT SYSTEMS (AQUARIUM & WATER MATRIX)
+  //  LIFE SUPPORT SYSTEMS (AQUARIUM & WATER MATRIX)
   // =========================================================================
   if (currentMillis - lastHydroPurgeMillis >= HYDRO_PURGE_INTERVAL) {
     digitalWrite(cleanWaterSolenoidPin, HIGH);
@@ -292,7 +295,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 DOUBLE-DOOR 1 MAIN PROCESSING RUNTIME (GATE A)
+  //  DOUBLE-DOOR 1 MAIN PROCESSING RUNTIME (GATE A)
   // =========================================================================
   int dev1 = abs(getStableRead(joy1Pin) - baseline1);
   int dev2 = abs(getStableRead(joy2Pin) - baseline2);
@@ -313,7 +316,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 DOUBLE-DOOR 2 MAIN PROCESSING RUNTIME (GATE B)
+  //  DOUBLE-DOOR 2 MAIN PROCESSING RUNTIME (GATE B)
   // =========================================================================
   int dev3 = abs(getStableRead(joy3Pin) - baseline3);
   int dev4 = abs(getStableRead(joy4Pin) - baseline4);
@@ -334,7 +337,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 CALORIE DISPENSER 1 PROCESSING ENGINE (3.0 HOUR LIMITER)
+  //  CALORIE DISPENSER 1 PROCESSING ENGINE (3.0 HOUR LIMITER)
   // =========================================================================
   int devFeeder1 = abs(getStableRead(joyFeeder1Pin) - baselineFeeder1);
   if (devFeeder1 > HAIR_TRIGGER_THRESHOLD) {
@@ -347,7 +350,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 CALORIE DISPENSER 2 PROCESSING ENGINE (3.0 HOUR LIMITER)
+  //  CALORIE DISPENSER 2 PROCESSING ENGINE (3.0 HOUR LIMITER)
   // =========================================================================
   int devFeeder2 = abs(getStableRead(joyFeeder2Pin) - baselineFeeder2);
   if (devFeeder2 > HAIR_TRIGGER_THRESHOLD) {
@@ -360,7 +363,7 @@ void loop() {
   }
 
   // =========================================================================
-  // 🔘 WHEEL FAN DRIVE MODULE & AUTOMATED SECRET EASTEREEGS
+  //  WHEEL FAN DRIVE MODULE & AUTOMATED SECRET EASTEREEGS
   // =========================================================================
   bool buttonIsPressed = (digitalRead(buttonPin) == LOW);
 
@@ -392,7 +395,7 @@ void loop() {
 
 ---
 
-## 🛠️ Installation & Compilation Sequence
+##  Installation & Compilation Sequence
 
 ### 1. Embedded Layer Deployment
 1. Load the core firmware sketch inside the native Arduino IDE environment.
@@ -416,5 +419,5 @@ cargo run --release
 
 ---
 
-## ⚖️ License
+##  License
 Distributed under the open-source MIT License. See `LICENSE` for more detailed terms.
